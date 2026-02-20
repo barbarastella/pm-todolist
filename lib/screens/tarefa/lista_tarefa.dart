@@ -21,7 +21,7 @@ class ListaTarefaState extends State<ListaTarefa> {
     _tarefas.add(Tarefa(1, 0, "Título Z", "Observação Z")); */
 
     return Scaffold(
-      appBar: AppBar(title: Text("To Do App"), backgroundColor: Colors.purple[50]),
+      appBar: AppBar(title: Text("To Do App"), backgroundColor: Colors.green[100]),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
             final Future valorFuturo = Navigator.push(
