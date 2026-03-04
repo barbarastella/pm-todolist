@@ -1,0 +1,59 @@
+import 'package:sqflite/sqflite.dart';
+import '../model/tarefa.dart';
+import 'database.dart';
+
+class TarefaDao {
+  final String _tableName = "tarefas";
+
+  // converter objeto para map
+  Map<String, dynamic> converterMap(Tarefa tarefa) {
+    final Map<String, dynamic> tarefaMap = Map();
+    tarefaMap['descricao'] = tarefa.descricao;
+    tarefaMap['obs'] = tarefa.obs;
+    tarefaMap['status'] = tarefa.status;
+    return tarefaMap;
+  }
+
+  List<Tarefa> converterList(List<Map<String, dynamic>> result) {
+    final List<Tarefa> tarefas = [];
+
+    for (Map<String, dynamic> row in result) {
+      Tarefa tarefa = Tarefa(
+          row['id'],
+          row['status'],
+          row['descricao'],
+          row['obs']);
+
+      tarefas.add(tarefa);
+    }
+    return tarefas;
+  }
+
+  Future<int> add(Tarefa tarefa) async {
+    print("ALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    Database db = await getDatabase();
+    print("no add. getdb");
+    Map<String, dynamic> tarefaMap = converterMap(tarefa);
+    print("Teste de add ao banco. tarefamap convertida");
+    return db.insert(_tableName, tarefaMap);
+  }
+
+  Future<int> update(Tarefa tarefa) async {
+    Database db = await getDatabase();
+    Map<String, dynamic> tarefaMap = converterMap(tarefa);
+    print("Teste de update ao banco.");
+    return db.update(_tableName, tarefaMap, where: 'id = ?', whereArgs: [tarefa.id]);
+  }
+
+  Future<int> delete(int id) async {
+    Database db = await getDatabase();
+    return db.delete(_tableName, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Tarefa>> findAll() async {
+    Database db = await getDatabase();
+    List<Map<String, dynamic>> result = await db.query(_tableName);
+    List<Tarefa> tarefas = converterList(result);
+    return tarefas;
+  }
+}

@@ -1,56 +1,76 @@
 import 'package:flutter/material.dart';
+import '../../database/tarefaDao.dart';
 import '../../model/tarefa.dart';
 import 'form_tarefa.dart';
 
 // class ListaTarefa extends StatelessWidget {
-class ListaTarefa extends StatefulWidget {  // necessário para atualização do componente ao criar nova tarefa
+class ListaTarefa extends StatefulWidget {
+  // necessário para atualização do componente ao criar nova tarefa
   @override
   State<StatefulWidget> createState() {
-   return ListaTarefaState();
+    /* TarefaDao db = TarefaDao();
+
+      db.add(Tarefa(0, 0, 'Tarefinha 1', 'observação da tarefinha 1')).then((id){print("ID: " + id.toString());});
+      db.findAll().then((tarefa) => print(tarefa.toString())); */
+
+    return ListaTarefaState();
   }
 }
 
 class ListaTarefaState extends State<ListaTarefa> {
-  List<Tarefa> _tarefas = [];
+
+  TarefaDao db = TarefaDao();
 
   @override
   Widget build(BuildContext context) {
-
     /* _tarefas.add(Tarefa(1, 0, "Título X", "Observação X"));
     _tarefas.add(Tarefa(1, 0, "Título Y", "Observação Y"));
     _tarefas.add(Tarefa(1, 0, "Título Z", "Observação Z")); */
 
     return Scaffold(
-      appBar: AppBar(title: Text("To Do App"), backgroundColor: Colors.green[100]),
+      appBar: AppBar(
+        title: Text("To Do App"),
+        backgroundColor: Colors.green[100],
+      ),
       floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            final Future valorFuturo = Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) { return FormTarefa(); }
-                ));
-
-            valorFuturo.then((novaTarefa) {
-              print("retornou a tarefa");
-              print(novaTarefa);
-              setState(() {
-                _tarefas.add(novaTarefa);
-              });
-            });
-          },
-          child: Icon(Icons.add)
+        onPressed: () {
+          final Future valorFuturo = Navigator.push(
+            context,
+            MaterialPageRoute( builder: (context) { return FormTarefa(); } ),
+          );
+          valorFuturo.then((x) {
+            setState((){});
+          });
+        },
+        child: Icon(Icons.add),
       ),
-      body: ListView.builder( // colocar pelos objetos da lista
-          itemCount: _tarefas.length,
-          itemBuilder: (context, indice) {
-            final tarefa = _tarefas[indice];
-            return ItemTarefa(tarefa);
-          }
-      ),
-      /* Column(children: <Widget>[ // colocar de forma estática
-         ItemTarefa(Tarefa(1, 0, "Título da tarefa 1", "Subtítulo da tarefa 1")),
-         ItemTarefa(Tarefa(2, 0, "Título da tarefa 2", "Subtítulo da tarefa 2"))
-       ]) */
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<List<Tarefa>>(
+                initialData: [],
+                future: db.findAll(),
+                builder: (context, snapshot) {
+                  switch(snapshot.connectionState) {
+                    case (ConnectionState.done):
+                      if (snapshot.data != null ) {
+                        List<Tarefa>? tarefas = snapshot.data;
+                        return ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          itemCount: tarefas?.length,
+                          itemBuilder: (context, index) { return ItemTarefa(tarefas![index]);}
+                        );
+                      } else { return Center(child: Text("else do switch: Carregando os dados.............")); }
+                    default:
+                      return Center(child: Text("default do switch: Carregando os dados.........."));
+                  }
+                }
+              ),
+            )]
+        )
+      )
     );
   }
 }
@@ -62,11 +82,11 @@ class ItemTarefa extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        child: ListTile(
-            leading: Icon(Icons.add_circle_outline),
-            title: Text(this._tarefa.descricao),
-            subtitle: Text(this._tarefa.obs)
-        )
+      child: ListTile(
+        leading: Icon(Icons.add_circle_outline),
+        title: Text(this._tarefa.descricao),
+        subtitle: Text(this._tarefa.obs),
+      ),
     );
   }
 }
