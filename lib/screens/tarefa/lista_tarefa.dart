@@ -18,7 +18,6 @@ class ListaTarefa extends StatefulWidget {
 }
 
 class ListaTarefaState extends State<ListaTarefa> {
-
   TarefaDao db = TarefaDao();
 
   @override
@@ -36,10 +35,14 @@ class ListaTarefaState extends State<ListaTarefa> {
         onPressed: () {
           final Future valorFuturo = Navigator.push(
             context,
-            MaterialPageRoute( builder: (context) { return FormTarefa(); } ),
+            MaterialPageRoute(
+              builder: (context) {
+                return FormTarefa();
+              },
+            ),
           );
           valorFuturo.then((x) {
-            setState((){});
+            setState(() {});
           });
         },
         child: Icon(Icons.add),
@@ -53,40 +56,94 @@ class ListaTarefaState extends State<ListaTarefa> {
                 initialData: [],
                 future: db.findAll(),
                 builder: (context, snapshot) {
-                  switch(snapshot.connectionState) {
+                  switch (snapshot.connectionState) {
                     case (ConnectionState.done):
-                      if (snapshot.data != null ) {
+                      if (snapshot.data != null) {
                         List<Tarefa>? tarefas = snapshot.data;
                         return ListView.builder(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           itemCount: tarefas?.length,
-                          itemBuilder: (context, index) { return ItemTarefa(tarefas![index]);}
+                          itemBuilder: (context, index) {
+                            return ItemTarefa(context, tarefas![index]);
+                          },
                         );
-                      } else { return Center(child: Text("else do switch: Carregando os dados.............")); }
+                      } else {
+                        return Center(
+                          child: Text(
+                            "else do switch: Carregando os dados.............",
+                          ),
+                        );
+                      }
                     default:
-                      return Center(child: Text("default do switch: Carregando os dados.........."));
+                      return Center(
+                        child: Text(
+                          "default do switch: Carregando os dados..........",
+                        ),
+                      );
                   }
-                }
+                },
               ),
-            )]
-        )
-      )
-    );
-  }
-}
-
-class ItemTarefa extends StatelessWidget {
-  final Tarefa _tarefa; // _ indica que o atributo é privado
-  ItemTarefa(this._tarefa);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: Icon(Icons.add_circle_outline),
-        title: Text(this._tarefa.descricao),
-        subtitle: Text(this._tarefa.obs),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget ItemTarefa(BuildContext context, Tarefa tarefa) {
+    bool isChecked;
+
+    if (tarefa.status == 1)
+      isChecked = true;
+    else
+      isChecked = false;
+
+    return GestureDetector(
+      onTap: () {
+        Future future = Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return FormTarefa(tarefa: tarefa);
+            },
+          ),
+        );
+        future.then((value) => setState(() {}));
+      },
+      child: Card(
+        child: ListTile(
+          leading: Checkbox(
+            value: isChecked,
+            checkColor: Colors.white,
+            activeColor: Colors.green,
+            onChanged: (bool? value) {
+              setState(() {
+                _atualizar(context, tarefa, value == true ? 1 : 0);
+              });
+            },
+          ),
+          title: Text(tarefa.descricao),
+          subtitle: Text(tarefa.obs),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () { _excluir(context, tarefa.id); },
+                child: Icon(Icons.delete),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _excluir(BuildContext context, int id) {
+    db.delete(id).then((value) => setState(() {}));
+  }
+
+  void _atualizar(BuildContext context, Tarefa tarefa, int status) {
+    Tarefa ta = Tarefa(tarefa.id, status, tarefa.descricao, tarefa.obs);
+    db.update(ta); //.then((value) => setState(() {}));
   }
 }
