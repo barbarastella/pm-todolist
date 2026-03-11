@@ -14,28 +14,38 @@ class FormTarefa extends StatefulWidget {
 }
 
 class FormTarefaState extends State<FormTarefa> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController _controllerDescricao = TextEditingController();
   TextEditingController _controllerObservacao = TextEditingController();
+
   int? _id;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Formulário de tarefa")),
+      appBar: AppBar(title: Text("Criar ou editar Tarefa")),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          criarTarefa(context);
+          if (_formKey.currentState!.validate()) {
+            // antes de criar, passar pela validação
+            criarTarefa(context);
+          }
         },
         child: Icon(Icons.save),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              Editor(_controllerDescricao, "Tarefa", "descrição teste", Icons.task),
-              Editor(_controllerObservacao, "Observação", "observação teste"),
-            ],),
+          padding: EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                Editor(_controllerDescricao, "Tarefa", "Descrição tarefa", Icons.badge_outlined),
+                SizedBox(height: 16.0), // margem entre os fields
+                Editor(_controllerObservacao, "Observação", "Descrição observação", Icons.assignment_outlined),
+              ],
+            ),
+          ),
         ),
       ),
     );

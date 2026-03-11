@@ -128,13 +128,44 @@ class ListaTarefaState extends State<ListaTarefa> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               GestureDetector(
-                onTap: () { _excluir(context, tarefa.id); },
+                onTap: () {
+                  _confirmarExclusao(context, tarefa.id);
+                },
                 child: Icon(Icons.delete),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _confirmarExclusao(BuildContext context, int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text("Atenção!"),
+          content: Text(
+            "Tem certeza que deseja excluir permanentemente esta tarefa?",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              child: Text("Cancelar", style: TextStyle(color: Colors.red)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _excluir(context, id);
+              },
+              child: Text("Confirmar", style: TextStyle(color: Colors.green)),
+            ),
+          ],
+        );
+      },
     );
   }
 

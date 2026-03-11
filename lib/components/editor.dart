@@ -10,11 +10,26 @@ class Editor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controlador,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          print("\n\n ENTROU NO CAMPO NULL \n\n");
+          return 'ERRO: preencha todos os campos!'; }
+
+        if (value.length > 100) {
+          print("\n\n ENTROU NO CAMPO > 100 \n\n");
+          return 'ERRO: o tamanho da tarefa não pode ultrapassar 100 caracteres!';
+        }
+
+        return null;
+      },
       style: TextStyle(fontSize: 18.0),
       decoration: InputDecoration(
         icon: icone != null ? Icon(icone) : null,
+          fillColor: Colors.white,
+          filled: true,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         labelText: rotulo,
         hintText: hint),
       );

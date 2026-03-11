@@ -30,18 +30,14 @@ class TarefaDao {
   }
 
   Future<int> add(Tarefa tarefa) async {
-    print("ALOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     Database db = await getDatabase();
-    print("no add. getdb");
     Map<String, dynamic> tarefaMap = converterMap(tarefa);
-    print("Teste de add ao banco. tarefamap convertida");
     return db.insert(_tableName, tarefaMap);
   }
 
   Future<int> update(Tarefa tarefa) async {
     Database db = await getDatabase();
     Map<String, dynamic> tarefaMap = converterMap(tarefa);
-    print("Teste de update ao banco.");
     return db.update(_tableName, tarefaMap, where: 'id = ?', whereArgs: [tarefa.id]);
   }
 

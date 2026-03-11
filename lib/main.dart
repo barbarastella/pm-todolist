@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'screens/tarefa/lista_tarefa.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'menu.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: ListaTarefa(),
+      home: MenuOptions(),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.blue[50],
         colorScheme: ColorScheme.fromSeed(
