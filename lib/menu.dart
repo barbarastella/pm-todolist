@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/endereco/cep.dart';
 import 'screens/tarefa/lista_tarefa.dart';
+import 'screens/gif/gifs.dart';
 
 class MenuOptions extends StatefulWidget{
   @override
@@ -21,19 +22,24 @@ class MenuOptionsState extends State<MenuOptions>{
         onPageChanged: setPaginaAtual,
         children: [
           ListaTarefa(),
-          Cep()
+          Cep(),
+          GifsPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: paginaAtual,
         backgroundColor: Colors.orange[100],
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.access_alarm),
+              icon: Icon(Icons.task_outlined),
               label: "Tarefas"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.markunread_outlined),
-              label: "Cep"),
+              icon: Icon(Icons.local_post_office_outlined),
+              label: "CEP"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.gif_box_outlined),
+            label: "Gifs"),
         ],
         onTap: (pagina) {
           pageController?.animateToPage(pagina,
