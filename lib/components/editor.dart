@@ -6,21 +6,21 @@ class Editor extends StatelessWidget {
   final String hint;
   final IconData? icone;
 
-  Editor(this.controlador, this.rotulo, this.hint, [this.icone]);
+  final TextInputType? teclado;
+  final String? Function(String?)? validador;
+
+  Editor(this.controlador, this.rotulo, this.hint, {this.icone, this.teclado, this.validador}); // {} indica parâmetros nomeados
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controlador,
+      keyboardType: teclado ?? TextInputType.text,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          print("\n\n ENTROU NO CAMPO NULL \n\n");
-          return 'ERRO: preencha todos os campos!'; }
 
-        if (value.length > 100) {
-          print("\n\n ENTROU NO CAMPO > 100 \n\n");
-          return 'ERRO: o tamanho da tarefa não pode ultrapassar 100 caracteres!';
-        }
+        if (value == null || value.isEmpty) return 'Campo obrigatório'; // regra geral
+        if (validador != null) return validador!(value); // regra customizada
+        if (value.length > 100) return 'ERRO: o tamanho da tarefa não pode ultrapassar 100 caracteres!'; // regra default
 
         return null;
       },

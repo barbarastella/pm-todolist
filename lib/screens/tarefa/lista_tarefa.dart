@@ -28,8 +28,9 @@ class ListaTarefaState extends State<ListaTarefa> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("To Do App"),
-        backgroundColor: Colors.green[100],
+        title: Text("Tarefas", style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.orange[50],
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

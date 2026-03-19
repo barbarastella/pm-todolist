@@ -39,7 +39,6 @@ class _PaletaState extends State<Paleta> {
               ),
               SizedBox(height: 16.0),
               Row(
-
                 children: [
                   Expanded(
                     child: TextField(

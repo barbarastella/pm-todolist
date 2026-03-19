@@ -40,9 +40,9 @@ class FormTarefaState extends State<FormTarefa> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                Editor(_controllerDescricao, "Tarefa", "Descrição tarefa", Icons.badge_outlined),
+                Editor(_controllerDescricao, "Tarefa", "Descrição tarefa", icone: Icons.badge_outlined),
                 SizedBox(height: 16.0), // margem entre os fields
-                Editor(_controllerObservacao, "Observação", "Descrição observação", Icons.assignment_outlined),
+                Editor(_controllerObservacao, "Observação", "Descrição observação", icone: Icons.assignment_outlined),
               ],
             ),
           ),
