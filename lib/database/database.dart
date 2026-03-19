@@ -15,6 +15,7 @@ Future<Database> getDatabase() async {
       ' nome TEXT,'
       ' sobrenome TEXT,'
       ' logradouro TEXT,'
+      ' numero TEXT,'
       ' bairro TEXT,'
       ' cidade TEXT,'
       ' uf TEXT,'
@@ -29,11 +30,14 @@ Future<Database> getDatabase() async {
       db.execute(tableUsuarios);
     },
     onUpgrade: (db, oldVersion, newVersion) {
-      if (newVersion == 2) {
+      if (oldVersion == 1) {
         db.execute(tableUsuarios);
+      }
+      if (oldVersion == 2) {
+        db.execute("ALTER TABLE usuarios ADD COLUMN numero TEXT DEFAULT '';");
       }
     },
     onDowngrade: onDatabaseDowngradeDelete, // excluir o db
-    version: 2,
+    version: 3,
   );
 }

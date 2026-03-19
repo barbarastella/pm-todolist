@@ -20,7 +20,7 @@ class Editor extends StatelessWidget {
 
         if (value == null || value.isEmpty) return 'Campo obrigatório'; // regra geral
         if (validador != null) return validador!(value); // regra customizada
-        if (value.length > 100) return 'ERRO: o tamanho da tarefa não pode ultrapassar 100 caracteres!'; // regra default
+        if (value.length > 100) return 'Digite até 100 caracteres'; // regra default
 
         return null;
       },

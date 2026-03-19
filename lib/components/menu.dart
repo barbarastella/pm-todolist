@@ -39,7 +39,7 @@ class MenuOptionsState extends State<MenuOptions> {
           ),*/
           BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined),
-            label: "Perfil",
+            label: "Usuários",
           ),
          /* BottomNavigationBarItem(
             icon: Icon(Icons.gif_box_outlined),
@@ -47,7 +47,7 @@ class MenuOptionsState extends State<MenuOptions> {
           ),*/
           BottomNavigationBarItem(
             icon: Icon(Icons.palette_outlined),
-            label: "Cores",
+            label: "Paletas",
           ),
         ],
         onTap: (pagina) {

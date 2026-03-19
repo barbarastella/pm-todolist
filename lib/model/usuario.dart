@@ -3,12 +3,13 @@ class Usuario {
   String nome;
   String sobrenome;
   String logradouro;
+  String numero;
   String bairro;
   String cidade;
   String uf;
   String cep;
 
-  Usuario(this.id, this.nome, this.sobrenome, this.logradouro, this.bairro, this.cidade, this.uf, this.cep);
+  Usuario(this.id, this.nome, this.sobrenome, this.logradouro, this.numero, this.bairro, this.cidade, this.uf, this.cep);
 
   @override
   String toString() {

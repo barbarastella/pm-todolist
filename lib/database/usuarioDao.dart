@@ -8,10 +8,12 @@ class UsuarioDao {
   Map<String, dynamic> toMap(Usuario usuario) {
     final Map<String, dynamic> usuarioMap = Map();
 
-    usuarioMap['id'] = usuario.id;
+    if (usuario.id != 0) usuarioMap['id'] = usuario.id;
+
     usuarioMap['nome'] = usuario.nome;
     usuarioMap['sobrenome'] = usuario.sobrenome;
     usuarioMap['logradouro'] = usuario.logradouro;
+    usuarioMap['numero'] = usuario.numero;
     usuarioMap['bairro'] = usuario.bairro;
     usuarioMap['cidade'] = usuario.cidade;
     usuarioMap['uf'] = usuario.uf;
@@ -29,6 +31,7 @@ class UsuarioDao {
         row['nome'],
         row['sobrenome'],
         row['logradouro'],
+        row['numero'],
         row['bairro'],
         row['cidade'],
         row['uf'],
