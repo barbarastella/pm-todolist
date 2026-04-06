@@ -1,4 +1,4 @@
-# To-Do & API Explorer
+# TaskHub
 
 ![Status](https://img.shields.io/badge/Status-666?style=for-the-badge&logo=status&logoColor=white)![Finished](https://img.shields.io/badge/Finished-green?style=for-the-badge&logoColor=white) 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
